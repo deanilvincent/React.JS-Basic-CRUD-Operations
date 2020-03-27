@@ -1,10 +1,15 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 import axios from 'axios'
 import ButtonSave from '../ui/ButtonSave'
 const webApi = require('../../api')
 
-interface IProps { }
+interface IOwnProps {
+ }
+
+interface IRouteProps {
+
+}
 
 interface ICustomer {
     customerId: number
@@ -17,12 +22,11 @@ interface ICustomerState {
     isSaving: boolean
 }
 
-export default class CreateEditCustomer extends React.Component<IProps, ICustomerState> {
+export default class CreateEditCustomer extends React.Component<IOwnProps & RouteComponentProps<IRouteProps>, ICustomerState> {
     state: ICustomerState
 
     constructor(props: any) {
         super(props)
-
         this.state = {
             customer: {
                 customerId: 0,
@@ -41,20 +45,27 @@ export default class CreateEditCustomer extends React.Component<IProps, ICustome
         if (customerId !== 0) {
             axios.put(`${webApi.baseApiUrl}customers/${customerId}`, this.state.customer).then(response => {
                 alert(response.data)
+                this.cancelIsSavingState()
+                this.props.history.push('/customers')
             }).catch(error => {
                 console.log(error)
-            }).then(() => {
-                this.setState({ isSaving: false })
+                this.cancelIsSavingState()
             })
-        } else {
+        } else { // CREATE
             axios.post(`${webApi.baseApiUrl}customers`, this.state.customer).then(response => {
                 alert(response.data)
+                this.cancelIsSavingState()
+                this.props.history.push('/customers')
             }).catch(error => {
                 console.log(error)
-            }).then(() => {
-                this.setState({ isSaving: false })
+                this.cancelIsSavingState()
             })
         }
+    }
+
+    // this to prevent memory leak if the loading is not stop before the this.props.history.push is called
+    cancelIsSavingState(): void { 
+        this.setState({ isSaving: false })
     }
 
     getCustomerById(id: number): void {
@@ -70,28 +81,28 @@ export default class CreateEditCustomer extends React.Component<IProps, ICustome
     }
 
     handleInputChanges = (e: any) => {
-        let currentCustomerState = { ...this.state.customer }
-        currentCustomerState.firstname = e.target.value
-        currentCustomerState.lastname = e.target.value
-        this.setState({ customer: currentCustomerState });
+        this.setState({
+            ...this.state,
+            customer: { ... this.state.customer, [e.currentTarget.name]: e.currentTarget.value }
+        });
     }
 
     render() {
         return (
             <div>
-                <h3 className="title is-3">{this.state.customer.customerId != 0 ? 'Edit' : 'Create'} customer</h3>
+                <h3 className="title is-3">{this.state.customer.customerId !== 0 ? 'Edit' : 'Create'} customer</h3>
                 <div className="columns">
                     <div className="column">
                         <div className="field">
                             <label className="label">Firstname</label>
                             <div className="control">
-                                <input value={this.state.customer.firstname || ''} onChange={(e) => this.handleInputChanges(e)} type="text" className="input" />
+                                <input name="firstname" value={this.state.customer.firstname || ''} onChange={(e) => this.handleInputChanges(e)} type="text" className="input" />
                             </div>
                         </div>
                         <div className="field">
                             <label className="label">Lastname</label>
                             <div className="control">
-                                <input value={this.state.customer.lastname || ''} onChange={(e) => this.handleInputChanges(e)} type="text" className="input" />
+                                <input name="lastname" value={this.state.customer.lastname || ''} onChange={(e) => this.handleInputChanges(e)} type="text" className="input" />
                             </div>
                         </div>
                     </div>

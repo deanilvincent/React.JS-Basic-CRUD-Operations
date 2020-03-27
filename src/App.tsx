@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import ListOfCustomer from './components/customer/List'
 import CreateEditCustomer from './components/customer/CreateEdit';
