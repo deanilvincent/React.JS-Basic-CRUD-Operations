@@ -82,6 +82,7 @@ export default class CreateEditCustomer extends React.Component<IOwnProps & Rout
 
     handleInputChanges = (e: any) => {
         this.setState({
+            
             ...this.state,
             customer: { ... this.state.customer, [e.currentTarget.name]: e.currentTarget.value }
         });

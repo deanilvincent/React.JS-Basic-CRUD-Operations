@@ -11,6 +11,7 @@ class App extends React.Component<RouteComponentProps<any>> {
     return (
       <div>
         <NavBar />
+        <br />
         <div className="container">
           <Switch>
             <Route path={'/'} exact component={Home} />
