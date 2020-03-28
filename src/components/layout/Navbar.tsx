@@ -20,6 +20,7 @@ export default class NavBar extends React.Component {
 
                     <div id="navbarExampleTransparentExample" className="navbar-menu">
                         <div className="navbar-end">
+                            <Link to={'/'} className="navbar-item"> Home</Link>
                             <Link to={'/customers'} className="navbar-item"> Customers</Link>
                             <div className="navbar-item">
                                 <div className="field is-grouped">

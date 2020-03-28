@@ -42,8 +42,9 @@ export default class ListOfCustomer extends React.Component<RouteComponentProps,
     render() {
         return (
             <div>
-                <DeleteModal />
+                <h3 className="title is-3">Customers</h3>
                 <Link to={'/customers/create'} className="button is-link">Create new</Link>
+                < hr />
                 <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                     <thead>
                         <tr>
