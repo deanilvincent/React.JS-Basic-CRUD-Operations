@@ -8,7 +8,7 @@ interface IOwnProps {
  }
 
 interface IRouteProps {
-
+    customerId: any
 }
 
 interface ICustomer {
@@ -35,8 +35,10 @@ export default class CreateEditCustomer extends React.Component<IOwnProps & Rout
             },
             isSaving: false
         }
+    }
 
-        this.getCustomerById(props.match.params.customerId)
+    componentDidMount(){
+        this.getCustomerById(this.props.match.params.customerId)
     }
 
     submit = () => {

@@ -9,8 +9,8 @@ interface IState {
 }
 
 export default class ListOfCustomer extends React.Component<RouteComponentProps, IState> {
-    constructor(props: RouteComponentProps) {
-        super(props)
+    
+    componentDidMount() {
         this.getCustomers()
     }
 
